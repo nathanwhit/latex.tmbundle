@@ -921,7 +921,7 @@ if __name__ == '__main__':
     tm_preferences = Preferences()
     # Parse command line parameters...
     arguments = get_command_line_arguments()
-
+    clean_after = True if tm_preferences['latexCleanAfter'] == 1 else False
     command = arguments.command
     viewer_status = 0
     filepath = arguments.filepath
@@ -1022,6 +1022,11 @@ if __name__ == '__main__':
                 number_errors > 1 or number_warnings > 0 and
                 tm_preferences['latexKeepLogWin'],
                 'pdfsync' in packages or synctex, line_number)
+        if clean_after:
+            removed_files = remove_auxiliary_files()
+            # Filter out bundle cache file (`.filename.lb`)
+            removed_files = [filepath for filepath in removed_files
+                             if not basename(filepath).startswith('.')]
         number_runs = command_parser.number_runs
 
     elif command == 'bibtex':
@@ -1065,6 +1070,11 @@ if __name__ == '__main__':
                 number_errors > 1 or number_warnings > 0 and
                 tm_preferences['latexKeepLogWin'],
                 'pdfsync' in packages or synctex, line_number)
+        if clean_after:
+            removed_files = remove_auxiliary_files()
+            # Filter out bundle cache file (`.filename.lb`)
+            removed_files = [filepath for filepath in removed_files
+                             if not basename(filepath).startswith('.')]
 
     elif command == 'view' and not suppress_viewer:
         viewer_status = run_viewer(

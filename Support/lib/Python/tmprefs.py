@@ -39,6 +39,7 @@ class Preferences(object):
             'latexEngineOptions': "",
             'latexVerbose': False,
             'latexUselatexmk': True,
+            'latexCleanAfter': False,
             'latexViewer': "TextMate",
             'latexKeepLogWin': True,
             'latexDebug': False,
@@ -82,6 +83,7 @@ class Preferences(object):
             >>> preferences = Preferences()
             >>> print(preferences.defaults()) # doctest:+NORMALIZE_WHITESPACE
             { latexAutoView = 1;
+              latexCleanAfter = 0;
               latexDebug = 0;
               latexEngine = pdflatex;
               latexEngineOptions = "";
